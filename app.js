@@ -47,6 +47,21 @@ app.get('/cartItems',(req,res)=>{
 
 });
 
+app.get('/remove',(req,res)=>{
+	console.log(req.query.id);
+	Moltin.Cart().RemoveItem(req.query.id).then((cart) => {
+		res.redirect('/cartItems');
+});
+
+});
+
+app.get('/delete',(req,res)=>{
+	Moltin.Cart().Delete().then((cart) => {
+		res.redirect('/');
+});
+
+});
+
 app.listen(3000,()=>{
 	console.log("app running on port 3000");
 

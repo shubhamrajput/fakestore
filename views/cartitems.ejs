@@ -3,7 +3,10 @@
   <%- include('head')  %>
   <body>
     <%- include('navbar')  %>
-    <div class="jumbotron" style="margin-top:100px;">
+    <div class="jumbotron" style="margin-top:50px;">
+      <a href="/delete" class="btn btn-primary" style="">Delete Cart</a>
+
+
       <div class="container">
         <div class="row">
           <% items.forEach(function(item){%>
@@ -15,6 +18,7 @@
                 <h5 class="card-title"><%= item.name %></h5>
                 <h6> Quantity:<%= item.quantity %></h6>
                 <p class="card-text"><%= item.description %></p>
+                <a href="/remove?id=<%=item.id %>" class="btn btn-primary">Remove</a>
 
                 
               </div>
