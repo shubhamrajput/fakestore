@@ -2,6 +2,8 @@ const express = require('express');
 const MoltinGateway = require('@moltin/sdk').gateway;
 const keys = require('./keys');
 const bodyParser = require('body-parser');
+const user = require('./model');
+const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const app = express();
@@ -9,7 +11,9 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('assets'));
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(bodyParser.json());
 
 const Moltin = MoltinGateway({
@@ -25,18 +29,17 @@ Moltin.Authenticate().then((response) => {
 
 //Middleware
 
-const cartLength = (req,res,next)=>{
-	 Moltin.Cart().Items().then((items) => {
+const cartLength = (req, res, next) => {
+    Moltin.Cart().Items().then((items) => {
         console.log(items);
-        if(items.data.length>0){
-        	next();
-        }
-        else{
-        	res.redirect('/');
+        if (items.data.length > 0) {
+            next();
+        } else {
+            res.redirect('/');
         }
     });
 
-	
+
 };
 
 
@@ -45,7 +48,7 @@ const cartLength = (req,res,next)=>{
 app.get('/', (req, res) => {
 
     const products = Moltin.Products.All().then((products) => {
-    	console.log(products.data[0].price[0].amount);
+        console.log(products.data[0].price[0].amount);
         res.render('index', {
             products: products.data
         });
@@ -63,7 +66,7 @@ app.get('/cart', (req, res) => {
 });
 
 
-app.get('/cartItems',cartLength, (req, res) => {
+app.get('/cartItems', cartLength, (req, res) => {
     const cart = Moltin.Cart().Items().then((items) => {
         console.log(items);
         res.render('cartitems', {
@@ -90,40 +93,44 @@ app.get('/delete', (req, res) => {
 
 });
 
-app.get('/login',(req,res)=>{
-	res.render('loginPage');
+app.get('/login', (req, res) => {
+    res.render('loginPage');
 });
 
-app.get('/register',(req,res)=>{
-	res.render('registerPage',{
-		errors:[]
-	});
+app.get('/register', (req, res) => {
+    res.render('registerPage', {
+        errors: []
+    });
 });
 
-app.post('/register',(req,res)=>{
-	let errors = [];
-	if(req.body.email===""){
-		errors.push({text:"Enter your Email!"});
+app.post('/register', (req, res) => {
+    let errors = [];
+    if (req.body.email === "") {
+        errors.push({
+            text: "Enter your Email!"
+        });
 
-	}
-	if(req.body.name===""){
-		errors.push({text:"Enter your Name!"});
+    }
+    if (req.body.name === "") {
+        errors.push({
+            text: "Enter your Name!"
+        });
 
-	}
-	if(req.body.password===""){
-		errors.push({text:"Enter your Password!"});
+    }
+    if (req.body.password === "") {
+        errors.push({
+            text: "Enter your Password!"
+        });
 
-	}
-	if(errors.length>0)
-	{
-		res.render('registerPage',{
-			errors:errors
+    }
+    if (errors.length > 0) {
+        res.render('registerPage', {
+            errors: errors
 
-		});
-	}
-	else{
-		res.send("Succesfully registered");
-	}
+        });
+    } else {
+        res.send("Succesfully registered");
+    }
 
 
 });
