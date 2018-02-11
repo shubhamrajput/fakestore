@@ -13,10 +13,11 @@
           <div class="col-sm">
             
             <div class="card" style="width: 20rem;">
-              <img class="card-img-top" src="" alt="Card image cap" style="height:10rem;">
+              <img class="card-img-top" src="" alt="food image" style="height:10rem;">
               <div class="card-body">
                 <h5 class="card-title"><%= item.name %></h5>
                 <h6> Quantity:<%= item.quantity %></h6>
+                <h6>Total: <%= item.value.amount+item.value.currency%></h6>
                 <p class="card-text"><%= item.description %></p>
                 <a href="/remove?id=<%=item.id %>" class="btn btn-primary">Remove</a>
 
