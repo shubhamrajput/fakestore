@@ -6,15 +6,17 @@
     <div class="jumbotron" style="margin-top:100px;">
       <div class="container">
         <div class="row">
-          <% products.forEach(function(item){%>
+          <% items.forEach(function(item){%>
           <div class="col-sm">
             
             <div class="card" style="width: 20rem;">
               <img class="card-img-top" src="" alt="Card image cap" style="height:10rem;">
               <div class="card-body">
                 <h5 class="card-title"><%= item.name %></h5>
+                <h6> Quantity:<%= item.quantity %></h6>
                 <p class="card-text"><%= item.description %></p>
-                <a href="/cart?id=<%= item.id %>" class="btn btn-primary">Add to Cart</a>
+
+                
               </div>
             </div>
             

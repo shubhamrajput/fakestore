@@ -3,6 +3,7 @@ const MoltinGateway = require('@moltin/sdk').gateway;
 const keys = require('./keys');
 const app = express();
 
+
 app.set('view engine', 'ejs');
 app.use('/assets', express.static('assets'));
 
@@ -21,14 +22,30 @@ Moltin.Authenticate().then((response) => {
 app.get('/',(req,res)=>{
 
 	const products = Moltin.Products.All().then((products) => {
-		//console.log(products.data[0].relationships.main_image.data.id);
 		res.render('index',{products:products.data});
 });
 	
 });
 
+app.get('/cart',(req,res)=>{
+console.log(req.query);
+	Moltin.Cart().AddProduct(req.query.id, 1).then((item) => {
+		res.redirect('/');
+});
 
 
+});
+
+
+app.get('/cartItems',(req,res)=>{
+	const cart = Moltin.Cart().Items().then((items)=>{
+		console.log(items);
+		res.render('cartitems',{items:items.data});
+	});
+	
+	
+
+});
 
 app.listen(3000,()=>{
 	console.log("app running on port 3000");
